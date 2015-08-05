@@ -18,16 +18,3 @@ realtime.config(['$routeProvider', '$locationProvider', function ($routeProvider
 
 //增加、编辑图表
 realtime.controller("addCtrl", addCtrl);
-realtime.factory('dataService', ['$http', '$rootScope', '$location', "FileUploader", function ($http, $rootScope, $location, FileUploader) {
-        return {
-            upImage: function () {
-                return new FileUploader({
-                    url: "https://test-rt.qutke.com/api/upImage",
-                    autoUpload: true,
-                    removeAfterUpload: true,
-                    headers: {Authorization: $rootScope.gToken}
-                });
-            }
-        }
-    }]
-);

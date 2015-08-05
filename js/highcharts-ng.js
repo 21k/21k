@@ -151,13 +151,9 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
             function initChart() {
                 if (chart)
                     chart.destroy();
-                console.log(121212)
                 var config = scope.config || {};
-                console.log(config)
                 var defaultConfigs = getdefaultConfigs(element, config);
-                console.log(343434)
                 Highcharts.setOptions(Highcharts_theme[defaultConfigs.theme]);
-                console.log(JSON.stringify(defaultConfigs))
                 chart = config.useHighStocks ? new Highcharts.StockChart(defaultConfigs) : new Highcharts.Chart(defaultConfigs);
                 if (config.loading) {
                     chart.showLoading();

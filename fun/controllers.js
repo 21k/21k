@@ -1,4 +1,4 @@
-function addCtrl($scope, $rootScope, $location, $routeParams, dataService, chartLang) {
+function addCtrl($scope, $rootScope, $location, $routeParams, chartLang) {
     var tmp1, tmp2;
     $scope.chartLang = chartLang;
     $scope.isEdit = ($routeParams.id && $routeParams.id.length == 24);
@@ -14,13 +14,7 @@ function addCtrl($scope, $rootScope, $location, $routeParams, dataService, chart
 
     //数据值
     $scope.calcVal2 = calcVal2;
-    //上传控件
-    $scope.uploader = dataService.upImage();
-    $scope.uploader.onSuccessItem = function (item, res, status, headers) {
-        if (status == 200 && res.msg == "success") {
-            $scope.AddData.image = res.data.url;
-        }
-    };
+
     //关闭tab
     $scope.closeTab = function (tabs, tab, obj, type) {
         var i = 1;
