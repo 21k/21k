@@ -54,12 +54,9 @@ function realTimeChart($scope, chartTemplate, chartName) {
         });
         var num=($scope.resultFormat.check)?10:0;
         console.log(num)
-        $scope.result = JSON.stringify(angular.extend({}, $scope.AddData, {template: LessT(angular.copy(chartTemplate))}),null,num);
+        $scope.result = JSON.stringify(angular.extend({},LessT(angular.copy(chartTemplate))),null,num);
 
     };
-    $scope.$watch('AddData', function (n, o) {
-        toResult($scope);
-    },true);
 
     // 监视其他配置
     $scope.$watch('chartSet', function (newSeries) {
