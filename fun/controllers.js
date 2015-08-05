@@ -60,7 +60,7 @@ function addCtrl($scope, $rootScope, $location, $routeParams, dataService, chart
                 }
             },
             tooltip: {
-                pointFormat: "<span style=\"color:{series.color};\">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>"
+                pointFormat: "<span style=\'color:{series.color};\'>{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>"
             },
             visible: true,
             color: "#ff0000",
