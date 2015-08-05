@@ -1,0 +1,437 @@
+<div class="container container-block">
+    <div><h4>数据图</h4>
+        <hr>
+    </div>
+    <!--图-->
+    <div class="panel panel-default">
+        <div class="panel-heading talbe_title">
+            <div class="col-md-4"> {{ AddData.title }}</div>
+        </div>
+
+        <highchart id="chart1" config="chart33" type="edit"></highchart>
+    </div>
+        <ul id="setzone1" class="nav nav-tabs setzone" ng-sortable="chartTabConfig">
+            <li ng-class="{'active':chartIndex==$index}" ng-click="showTab($index,'c')" ng-repeat="tab in chartTabs">
+                <a href="javascript:void(0)">{{tab.name||"未命名"}}</a>
+                <span class="fa fa-close closeTab" ng-show="chartIndex==$index"
+                      ng-click="closeTab('chartTabs',tab,'chartSet','c')"></span>
+            </li>
+            <li ng-click="addTab('chartTabs','chartSet','c')" class="addTab" id="addTab1">
+                <span class="fa fa-plus"></span>
+            </li>
+        </ul>
+        <div class="tab-content" id="contentzone">
+            <div class="form-horizontal" style="padding-top: 20px;" ng-repeat="tab in  chartTabs"
+                 ng-show="chartIndex==$index">
+                <!--列1-->
+                <div style="padding: 5px;" ng-class="{'col-md-offset-2 col-md-8':tab.more,'col-md-6':!tab.more}">
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">列名：</label>
+
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" ng-model="tab.field"
+                                   ng-minlength="1"
+                                   ng-maxlength="32"
+                                   name="cfield{{$index}}" required="">
+                        </div>
+                        <div ng-show="userForm['cfield{{$index}}'].$dirty && userForm['cfield{{$index}}'].$invalid">
+                            <div class="col-md-3 invalid" ng-show="userForm['cfield{{$index}}'].$error.required">
+                                <x class="fa fa-close"><span>内容不能为空</span></x>
+                            </div>
+                            <div class="col-md-3 invalid"
+                                 ng-show="userForm['cfield{{$index}}'].$error.minlength">
+                                <x class="fa fa-close"><span>最小长度为1字节</span></x>
+                            </div>
+                            <div class="col-md-3 invalid"
+                                 ng-show="userForm['cfield{{$index}}'].$error.maxlength">
+                                <x class="fa fa-close"><span>最大长度为32字节</span></x>
+                            </div>
+                        </div>
+                        <div class="col-md-2 checked"
+                             ng-show="userForm['cfield{{$index}}'].$dirty && userForm['cfield{{$index}}'].$valid">
+                            <x class="fa fa-check-circle"><span>正确</span></x>
+                        </div>
+                    </div>
+
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">显示名：</label>
+
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="1-10字" ng-model="tab.name"
+                                   ng-minlength="1"
+                                   ng-maxlength="10" name="cname{{$index}}" required="">
+                        </div>
+                        <div ng-show="userForm['cname{{$index}}'].$dirty && userForm['cname{{$index}}'].$invalid">
+                            <div class="col-md-3 invalid" ng-show="userForm['cname{{$index}}'].$error.required">
+                                <x class="fa fa-close"><span>内容不能为空</span></x>
+                            </div>
+                            <div class="col-md-3 invalid"
+                                 ng-show="userForm['cname{{$index}}'].$error.minlength">
+                                <x class="fa fa-close"><span>最小长度为1字节</span></x>
+                            </div>
+                            <div class="col-md-3 invalid"
+                                 ng-show="userForm['cname{{$index}}'].$error.maxlength">
+                                <x class="fa fa-close"><span>最大长度为10字节</span></x>
+                            </div>
+                        </div>
+                        <div class="col-md-3 checked"
+                             ng-show="userForm['cname{{$index}}'].$dirty && userForm['cname{{$index}}'].$valid">
+                            <x class="fa fa-check-circle"><span>正确</span></x>
+                        </div>
+                    </div>
+
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">曲线类型：</label>
+
+                        <div class="col-md-6">
+                            <select ng-model="tab.type" class="form-control"
+                                    ng-options="item.val as item.name for item in chartLang.lineTypes">
+                                <option value="">-----请选择类型-----</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">前缀：</label>
+
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="1-10字"
+                                   ng-model="tab.tooltip.valuePrefix"
+                                   ng-minlength="1"
+                                   ng-maxlength="10" name="cprefix{{$index}}">
+                        </div>
+                        <div ng-show="userForm['cprefix{{$index}}'].$dirty && userForm['cprefix{{$index}}'].$invalid">
+                            <div class="col-md-3 invalid"
+                                 ng-show="userForm['cprefix{{$index}}'].$error.required">
+                                <x class="fa fa-close"><span>内容不能为空</span></x>
+                            </div>
+                            <div class="col-md-3 invalid"
+                                 ng-show="userForm['cprefix{{$index}}'].$error.minlength">
+                                <x class="fa fa-close"><span>最小长度为1字节</span></x>
+                            </div>
+                            <div class="col-md-3 invalid"
+                                 ng-show="userForm['cprefix{{$index}}'].$error.maxlength">
+                                <x class="fa fa-close"><span>最大长度为10字节</span></x>
+                            </div>
+                        </div>
+                        <div class="col-md-2 checked"
+                             ng-show="userForm['cprefix{{$index}}'].$dirty && userForm['cprefix{{$index}}'].$valid">
+                            <x class="fa fa-check-circle"><span>正确</span></x>
+                        </div>
+                    </div>
+
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">后缀：</label>
+
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="1-10字"
+                                   ng-model="tab.tooltip.valueSuffix"
+                                   ng-minlength="1"
+                                   ng-maxlength="10" name="csuffix{{$index}}">
+                        </div>
+                        <div ng-show="userForm['csuffix{{$index}}'].$dirty && userForm['csuffix{{$index}}'].$invalid">
+                            <div class="col-md-3 invalid"
+                                 ng-show="userForm['csuffix{{$index}}'].$error.required">
+                                <x class="fa fa-close"><span>内容不能为空</span></x>
+                            </div>
+                            <div class="col-md-3 invalid"
+                                 ng-show="userForm['csuffix{{$index}}'].$error.minlength">
+                                <x class="fa fa-close"><span>最小长度为1字节</span></x>
+                            </div>
+                            <div class="col-md-3 invalid"
+                                 ng-show="userForm['csuffix{{$index}}'].$error.maxlength">
+                                <x class="fa fa-close"><span>最大长度为10字节</span></x>
+                            </div>
+                        </div>
+                        <div class="col-md-2 checked"
+                             ng-show="userForm['csuffix{{$index}}'].$dirty && userForm['csuffix{{$index}}'].$valid">
+                            <x class="fa fa-check-circle"><span>正确</span></x>
+                        </div>
+                    </div>
+
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">所属坐标轴：</label>
+
+                        <div class="col-md-6">
+                            <select ng-model="tab.yAxis" class="form-control"
+                                    ng-options="axis.id as axis.title.text for axis in chartSet.yAxis">
+                                <option value="">-----请选择类型-----</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <!--列2-->
+                <div class="col-md-1 itemmore" ng-click="tab.more=!tab.more">
+                    <a class="fa fa-angle-double-right" ng-show="tab.more"></a>
+                    <a class="fa fa-angle-double-left" ng-show="!tab.more"></a>
+                </div>
+                <!--列3-->
+                <div class="col-md-5" ng-show="!tab.more" style="padding: 5px;">
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">数据点颜色：</label>
+
+                        <div class="col-md-3">
+                            <input type="color" class="form-control" ng-model="tab.marker.lineColor">
+                        </div>
+                        <label class="col-md-3 control-label">点轮廓大小：</label>
+
+                        <div class="col-md-3">
+                            <input type="number" class="form-control" ng-model="tab.marker.lineWidth" min="1" max="6">
+                        </div>
+                    </div>
+
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">标签颜色：</label>
+
+                        <div class="col-md-3">
+                            <input type="color" class="form-control" ng-model="tab.dataLabels.color">
+                        </div>
+                        <label class="col-md-3 control-label">标签大小：</label>
+
+                        <div class="col-md-3">
+                            <select ng-model="tab.dataLabels.style.fontSize" class="form-control" style="  padding: 0;"
+                                    ng-options="item for item in ['12px','14px','16px','18px','20px','40px']">
+                                <option value="">-----请选择类型-----</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">曲线颜色：</label>
+
+                        <div class="col-md-3">
+                            <input type="color" class="form-control" ng-model="tab.color">
+                        </div>
+                        <label class="col-md-3 control-label">曲线粗细：</label>
+
+                        <div class="col-md-3">
+                            <input type="number" class="form-control" ng-model="tab.lineWidth" min="1" max="5">
+                        </div>
+                    </div>
+
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">连线样式：</label>
+
+                        <div class="col-md-6">
+                            <select ng-model="tab.dashStyle" class="form-control"
+                                    ng-options="item as item for item in chartLang.dashStyle">
+                                <option value="">-----请选择类型-----</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">显示标签：</label>
+
+                        <div class="checkbox col-md-9">
+                            <label>
+                                <input type="checkbox" ng-model="tab.dataLabels.enabled">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!--a list-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">显示曲线：</label>
+
+                        <div class="checkbox col-md-8">
+                            <label>
+                                <input type="checkbox" ng-model="tab.visible">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div>
+        <div class="gConfig form-horizontal">
+            <div class="form-group">
+                <div class="col-md-2" style="text-align: center">
+                    <label style="font-size: 1.6rem">图样式：</label>
+                </div>
+                <div class="col-md-3">
+                    <select ng-model="chartSet.theme" class="form-control"
+                            ng-options="theme as theme for theme in  chartLang.themes">
+                        <option value="">-----请选择类型-----</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" style=" margin-bottom: -15px;">
+                <div class="col-md-2" style="text-align: center">
+                    <label style="font-size: 1.6rem">轴设置：</label>
+                </div>
+                <ul class="col-md-2 axisTab">
+                    <li ng-class="{'axisactive':axisIndex==-1}" ng-repeat="xaxis in chartSet.xAxis"
+                        ng-click="showAxisTab(-1)">
+                        <a href="javascript:void(0)">X轴-{{xaxis.title.text||"未命名"}}</a>
+                    </li>
+                    <li ng-repeat="axis in chartSet.yAxis" ng-class="{'axisactive':axisIndex==$index}"
+                        ng-click="showAxisTab($index)">
+                        <a href="javascript:void(0)">Y轴-{{axis.title.text||"未命名"}}</a>
+                <span class="fa fa-close closeTab" style=" margin-top: 5px;" ng-show="axisIndex==$index"
+                      ng-click="closeAxisTab(axis)"></span>
+                    </li>
+                    <li ng-click="addAxisTab()" class="addTab" style="border: none" data-toggle="tooltip"
+                        data-placement="left" title="Tooltip on left">
+                        <span class="fa fa-plus"></span>
+                    </li>
+                </ul>
+                <div class="col-md-8 axisCon">
+                    <div ng-show="axisIndex==-1" ng-repeat="xaxis in chartSet.xAxis">
+                        <!--one item-->
+                        <div class="col-md-6">
+                            <label class="col-md-3 axis-label">轴名：</label>
+
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" placeholder="1-10字" ng-model="xaxis.id"
+                                       ng-minlength="1"
+                                       ng-maxlength="10" name="xaxis{{$index}}">
+                            </div>
+                            <div ng-show="userForm['xaxis{{$index}}'].$dirty && userForm['xaxis{{$index}}'].$invalid">
+                                <div class="col-md-3 invalid" ng-show="userForm['xaxis{{$index}}'].$error.required">
+                                    <x class="fa fa-close"><span>内容不能为空</span></x>
+                                </div>
+                                <div class="col-md-3 invalid"
+                                     ng-show="userForm['xaxis{{$index}}'].$error.minlength">
+                                    <x class="fa fa-close"><span>最小长度为1字节</span></x>
+                                </div>
+                                <div class="col-md-3 invalid"
+                                     ng-show="userForm['xaxis{{$index}}'].$error.maxlength">
+                                    <x class="fa fa-close"><span>最大长度为10字节</span></x>
+                                </div>
+                            </div>
+                            <div class="col-md-2 checked"
+                                 ng-show="userForm['xaxis{{$index}}'].$dirty && userForm['xaxis{{$index}}'].$valid">
+                                <x class="fa fa-check-circle"><span>正确</span></x>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--list-->
+                    <div ng-repeat="axis in chartSet.yAxis" ng-show="axisIndex==$index">
+                        <!--one item-->
+                        <div class="col-md-6">
+                            <label class="col-md-3 axis-label">轴名：</label>
+
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" placeholder="1-10字" ng-model="axis.field"
+                                       ng-minlength="1"
+                                       ng-maxlength="10" name="afield{{$index}}" required="">
+                            </div>
+                            <div ng-show="userForm['afield{{$index}}'].$dirty && userForm['afield{{$index}}'].$invalid">
+                                <div class="col-md-3 invalid" ng-show="userForm['afield{{$index}}'].$error.required">
+                                    <x class="fa fa-close"><span>内容不能为空</span></x>
+                                </div>
+                                <div class="col-md-3 invalid"
+                                     ng-show="userForm['afield{{$index}}'].$error.minlength">
+                                    <x class="fa fa-close"><span>最小长度为1字节</span></x>
+                                </div>
+                                <div class="col-md-3 invalid"
+                                     ng-show="userForm['afield{{$index}}'].$error.maxlength">
+                                    <x class="fa fa-close"><span>最大长度为10字节</span></x>
+                                </div>
+                            </div>
+                            <div class="col-md-2 checked"
+                                 ng-show="userForm['afield{{$index}}'].$dirty && userForm['afield{{$index}}'].$valid">
+                                <x class="fa fa-check-circle"><span>正确</span></x>
+                            </div>
+
+                        </div>
+                        <!--one item-->
+                        <div class="col-md-6">
+                            <label class="col-md-3 axis-label ">显示名：</label>
+
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" placeholder="1-10字" ng-model="axis.title.text"
+                                       ng-minlength="1"
+                                       ng-maxlength="10" name="alabel{{$index}}" required="">
+                            </div>
+                            <div ng-show="userForm['alabel{{$index}}'].$dirty && userForm['alabel{{$index}}'].$invalid">
+                                <div class="col-md-3 invalid" ng-show="userForm['alabel{{$index}}'].$error.required">
+                                    <x class="fa fa-close"><span>内容不能为空</span></x>
+                                </div>
+                                <div class="col-md-3 invalid"
+                                     ng-show="userForm['alabel{{$index}}'].$error.minlength">
+                                    <x class="fa fa-close"><span>最小长度为1字节</span></x>
+                                </div>
+                                <div class="col-md-3 invalid"
+                                     ng-show="userForm['alabel{{$index}}'].$error.maxlength">
+                                    <x class="fa fa-close"><span>最大长度为10字节</span></x>
+                                </div>
+                            </div>
+                            <div class="col-md-2 checked"
+                                 ng-show="userForm['alabel{{$index}}'].$dirty && userForm['alabel{{$index}}'].$valid">
+                                <x class="fa fa-check-circle"><span>正确</span></x>
+                            </div>
+                        </div>
+                        <!--one item-->
+                        <div class="col-md-6">
+                            <label class="col-md-3 axis-label ">单位：</label>
+
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" placeholder="1-10字" ng-model="axis.unit"
+                                       ng-minlength="1"
+                                       ng-maxlength="10" name="aunit{{$index}}">
+                            </div>
+                            <div ng-show="userForm['aunit{{$index}}'].$dirty && userForm['aunit{{$index}}'].$invalid">
+                                <div class="col-md-3 invalid" ng-show="userForm['aunit{{$index}}'].$error.required">
+                                    <x class="fa fa-close"><span>内容不能为空</span></x>
+                                </div>
+                                <div class="col-md-3 invalid"
+                                     ng-show="userForm['aunit{{$index}}'].$error.minlength">
+                                    <x class="fa fa-close"><span>最小长度为1字节</span></x>
+                                </div>
+                                <div class="col-md-3 invalid"
+                                     ng-show="userForm['aunit{{$index}}'].$error.maxlength">
+                                    <x class="fa fa-close"><span>最大长度为10字节</span></x>
+                                </div>
+                            </div>
+                            <div class="col-md-2 checked"
+                                 ng-show="userForm['aunit{{$index}}'].$dirty && userForm['aunit{{$index}}'].$valid">
+                                <x class="fa fa-check-circle"><span>正确</span></x>
+                            </div>
+                        </div>
+                        <!--one item-->
+                        <div class="col-md-6">
+                            <label class="col-md-3 axis-label ">颜色：</label>
+
+                            <div class="col-md-5">
+                                <input type="color" class="form-control" ng-model="axis.title.style.color">
+                            </div>
+                        </div>
+                        <!--one item-->
+                        <div class="col-md-6">
+                            <label class="col-md-3 axis-label ">右/左：</label>
+
+                            <div class="col-md-5">
+                                <input type="checkbox" class="form-control" ng-model="axis.opposite">
+                            </div>
+                        </div>
+                        <!--one item-->
+                        <div class="col-md-6">
+                            <label class="col-md-3 axis-label ">逆序/正序：</label>
+
+                            <div class="col-md-5">
+                                <input type="checkbox" class="form-control" ng-model="axis.reversed">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
