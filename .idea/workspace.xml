@@ -27,26 +27,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="rules.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../node_realtime_web/fun/rules.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0" vertical-offset="30" max-vertical-offset="1767">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="theme.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../node_realtime_web/fun/theme.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0" vertical-offset="30" max-vertical-offset="24187">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="config.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../node_realtime_web/fun/config.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -121,11 +101,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="addChart.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="addChart.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/addChart.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.066822976" vertical-offset="0" max-vertical-offset="853">
+            <state vertical-scroll-proportion="-2.0357144" vertical-offset="0" max-vertical-offset="209">
               <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addHeader.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/addHeader.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="2470">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chart.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/chart.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.066822976" vertical-offset="0" max-vertical-offset="8474">
+              <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -139,11 +139,9 @@
         <option value="$PROJECT_DIR$/fun/auth.js" />
         <option value="$PROJECT_DIR$/js/highcharts-ng.js" />
         <option value="$PROJECT_DIR$/fun/rules.js" />
-        <option value="$PROJECT_DIR$/views/chart.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/fun/apps.js" />
         <option value="$PROJECT_DIR$/fun/base.js" />
-        <option value="$PROJECT_DIR$/views/addHeader.html" />
         <option value="$PROJECT_DIR$/fun/controllers.js" />
         <option value="$PROJECT_DIR$/css/main.css" />
         <option value="$PROJECT_DIR$/../node_realtime_web/css/main.css" />
@@ -163,6 +161,8 @@
         <option value="$PROJECT_DIR$/../node_realtime_web/fun/config.js" />
         <option value="$PROJECT_DIR$/fun/util.js" />
         <option value="$PROJECT_DIR$/views/addChart.html" />
+        <option value="$PROJECT_DIR$/views/addHeader.html" />
+        <option value="$PROJECT_DIR$/views/chart.html" />
       </list>
     </option>
   </component>
@@ -402,36 +402,6 @@
         <state vertical-scroll-proportion="1.4082625" vertical-offset="0" max-vertical-offset="1805">
           <caret line="61" column="100" selection-start-line="61" selection-start-column="20" selection-end-line="61" selection-end-column="100" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/chart.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-53.068966" vertical-offset="0" max-vertical-offset="8398">
-          <caret line="162" column="103" selection-start-line="162" selection-start-column="103" selection-end-line="162" selection-end-column="103" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#2;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#select#0;n#div#1;n#div#1;n#div#2;n#div#0;n#div#2;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#label#0;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#3;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#3;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#0;n#div#3;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#span#0;n#li#1;n#ul#0;n#div#1;n#div#0;n#div#3;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#li#2;n#ul#0;n#div#1;n#div#0;n#div#3;n#div#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/addHeader.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.3275862" vertical-offset="0" max-vertical-offset="2527">
-          <caret line="1" column="66" selection-start-line="1" selection-start-column="66" selection-end-line="1" selection-end-column="72" />
-          <folding>
-            <element signature="n#style#0;n#div#2;n#div#0;n#!!top" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -688,8 +658,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/addChart.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.066822976" vertical-offset="0" max-vertical-offset="853">
+        <state vertical-scroll-proportion="-2.0357144" vertical-offset="0" max-vertical-offset="209">
           <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/addHeader.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="2470">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/chart.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.066822976" vertical-offset="0" max-vertical-offset="8474">
+          <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
           <folding />
         </state>
       </provider>
