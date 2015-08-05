@@ -1,4 +1,4 @@
-var realtime = angular.module("realtime", ['ngRoute', 'ngTable', "highcharts-ng", 'filters', 'angularFileUpload', 'ng-sortable']),
+var realtime = angular.module("realtime", ['ngRoute', 'ngTable', "highcharts-ng", 'filters',  'ng-sortable']),
     routes = [
         {url: "/", ngctrl: "addCtrl", templateUrl: "views/addChart.html"}//导航
     ];
