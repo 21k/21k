@@ -36,30 +36,30 @@ function addCtrl($scope, $rootScope, $location, $routeParams, chartLang) {
     //增加新tab
     $scope.addTab = function (tabs, obj, type) {
         var name = randomChar();
+        var color = chartLang.colors[$scope[tabs].length % chartLang.colors.length];
         $scope[tabs].push({
-            name: '未命名图',
-            id: name,
-            field: name,
-            type: "line",
-            marker: {
-                symbol: "circle",
-                enabled: false,
-                lineWidth: 4
-            },
-            dataLabels: {
-                enabled: false,
-                color: "#ff0000",
-                style: {
+            "id": name,
+            "field": name,
+            "name": name,
+            "dataLabels": {
+                "enabled": false,
+                "color": color,
+                "style": {
                     "fontSize": "12px"
                 }
             },
-            tooltip: {
-                pointFormat: "<span style=color:{series.color}>{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>"
+            "dashStyle": "Solid",
+            "type": "line",
+            "marker": {
+                "symbol": "circle",
+                "fillColor": color,
+                "lineWidth": 1,
+                "lineColor": color,
+                "enabled": false
             },
-            visible: true,
-            color: "#ff0000",
-            lineWidth: 1,
-            dashStyle: "Solid",
+            "color": color,
+            "lineWidth": 1,
+            "visible": true,
             data: rangeRnd([-5, 20])
         });
 
@@ -87,7 +87,7 @@ function addCtrl($scope, $rootScope, $location, $routeParams, chartLang) {
         angular.element(".theCover").height(angular.element("body").height())
     }, 10)
 
-    $scope.toJson=function(t) {
+    $scope.toJson = function (t) {
         $scope.result = JSON.stringify(JSON.parse($scope.result), null, t ? 10 : 0)
     }
 

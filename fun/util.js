@@ -53,7 +53,6 @@ function realTimeChart($scope, chartTemplate, chartName) {
             return item.data
         });
         var num=($scope.resultFormat.check)?10:0;
-        console.log(num)
         $scope.result = JSON.stringify(angular.extend({},LessT(angular.copy(chartTemplate))),null,num);
 
     };
@@ -71,12 +70,13 @@ function realTimeChart($scope, chartTemplate, chartName) {
 
         // 监视Y坐标轴变换
         if (newSeries.yAxis.length) chartTemplate.yAxis = newSeries.yAxis;
+        else delete chartTemplate.yAxis;
 
         //监视X坐标轴变换
         chartTemplate.xAxis = newSeries.xAxis;
 
         //监视标题
-        chartTemplate.title = {text: $scope.AddData.title};
+        chartTemplate.title = {text: $scope.chartSet.title};
 
         chartTemplate.theme = newSeries.theme;
         chartTemplate.useHighStocks = newSeries.theme;
@@ -92,7 +92,6 @@ function paintChart($scope, chartName, template, cols) {
     var xAxis = new xAxisSet($scope.chartTemplateCopy, cols);
     xAxis.xPointAdd();
     chartAxis($scope.chartTemplateCopy.yAxis);
-    console.log($scope.chartTemplateCopy)
     if ($scope.chartTemplateCopy.series.length == 0)
         $scope.chartTemplateCopy.useHighStocks = true;
     $scope[chartName] = $scope.chartTemplateCopy;
@@ -238,5 +237,13 @@ function iniChartScope($scope) {
             $scope.showAxisTab(Math.max(0, $scope.chartSet.yAxis.length - 1));
         }
     }
+    //让Y轴的颜色自动跟曲线颜色一致，另设不管
+    $scope.colorChange = function (tab) {
+        console.log(tab)
+        if (tab.yAxis) $scope.chartSet.yAxis.filter(function (item) {
+            return item.id == tab.yAxis
+        })[0].title.style.color = tab.color;
+        else tab.yAxis = 0;
+    };
 }
 

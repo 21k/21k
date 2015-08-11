@@ -201,17 +201,21 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
                     navigator: {enabled: true},
                     plotOptions: {
                         series: {
+                            "tooltip": {
+                                "pointFormat": "<span style=\"color:{series.color}\">{series.name}</span>：" +
+                                "<span style=\"color:{series.color}\">{point.y}</span>" +
+                                "<span style=\"color:{series.color}\"> ({point.change}%)</span><br/>"
+                            },
                             connectNulls: true,//忽略空值
                             turboThreshold: 0//曲线最大1000个{}点
                         }
                     },
+                    tooltip: {xDateFormat: "%Y-%m-%d %H:%M:%S"},
                     theme: "grid-light"
                 };
                 angular.extend(defaultConfigs, config);
                 return defaultConfigs;
-            };
-
-
+            }
         }
     };
 }]).factory('chartLang', function () {
@@ -220,7 +224,8 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
         "points": [{"val": "circle", "name": "圆圈"}, {"val": "square", "name": "方块"}, {
             "val": "diamond",
             "name": "菱形"
-        }, {"val": "triangle", "name": "三角形"}, {"val": "triangle-down", "name": "倒三角"}]
+        },
+            {"val": "triangle", "name": "三角形"}, {"val": "triangle-down", "name": "倒三角"}]
         ,
         "lineTypes": [{"val": "line", "name": "直线图"}, {"val": "spline", "name": "曲线图"}, {
             "val": "area",
@@ -229,6 +234,7 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
             "val": "bar",
             "name": "条形图"
         }, {"val": "pie", "name": "饼图"}, {"val": "scatter", "name": "散点图"}],
-        "dashStyle": ["Solid", "ShortDash", "ShortDot", "ShortDashDot", "ShortDashDotDot", "Dot", "Dash", "LongDash", "DashDot", "LongDashDot", "LongDashDotDot"]
+        "dashStyle": ["Solid", "ShortDash", "ShortDot", "ShortDashDot", "ShortDashDotDot", "Dot", "Dash", "LongDash", "DashDot", "LongDashDot", "LongDashDotDot"],
+        "colors": ["#ed808c", "#1cb1c7", "#f7905c", "#a04c4e","#43733e", "#b486af",  "#6bcbb8", "#d6b29a","#164d88", "#7e8242", "#90c6d9","#888689"]
     };
 });
