@@ -153,7 +153,8 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
                     chart.destroy();
                 var config = scope.config || {};
                 var defaultConfigs = getdefaultConfigs(element, config);
-                Highcharts.setOptions(Highcharts_theme[defaultConfigs.theme]);
+                if (defaultConfigs.theme)
+                    Highcharts.setOptions(Highcharts_theme[defaultConfigs.theme]);
                 chart = config.useHighStocks ? new Highcharts.StockChart(defaultConfigs) : new Highcharts.Chart(defaultConfigs);
                 if (config.loading) {
                     chart.showLoading();
@@ -201,6 +202,16 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
                     navigator: {enabled: true},
                     plotOptions: {
                         series: {
+                            events:{
+                                legendItemClick:function(e){
+                                    config.template.forEach(function(item){
+                                        if(item.id== e.currentTarget.userOptions.id)
+                                        {
+                                            item.visible=!e.currentTarget.visible;
+                                        }
+                                    });
+                                }
+                            },
                             "tooltip": {
                                 "pointFormat": "<span style=\"color:{series.color}\">{series.name}</span>：" +
                                 "<span style=\"color:{series.color}\">{point.y}</span>" +
@@ -210,8 +221,7 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
                             turboThreshold: 0//曲线最大1000个{}点
                         }
                     },
-                    tooltip: {xDateFormat: "%Y-%m-%d %H:%M:%S"},
-                    theme: "grid-light"
+                    tooltip: {xDateFormat: "%Y-%m-%d %H:%M:%S"}
                 };
                 angular.extend(defaultConfigs, config);
                 return defaultConfigs;
@@ -235,6 +245,6 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
             "name": "条形图"
         }, {"val": "pie", "name": "饼图"}, {"val": "scatter", "name": "散点图"}],
         "dashStyle": ["Solid", "ShortDash", "ShortDot", "ShortDashDot", "ShortDashDotDot", "Dot", "Dash", "LongDash", "DashDot", "LongDashDot", "LongDashDotDot"],
-        "colors": ["#ed808c", "#1cb1c7", "#f7905c", "#a04c4e","#43733e", "#b486af",  "#6bcbb8", "#d6b29a","#164d88", "#7e8242", "#90c6d9","#888689"]
+        "colors": ["#ed808c", "#1cb1c7", "#43733e", "#f7905c", "#a04c4e","#b486af",  "#6bcbb8", "#d6b29a","#164d88", "#7e8242", "#90c6d9","#888689"]
     };
 });

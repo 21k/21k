@@ -52,8 +52,8 @@ function realTimeChart($scope, chartTemplate, chartName) {
         }).map(function (item) {
             return item.data
         });
-        var num=($scope.resultFormat.check)?10:0;
-        $scope.result = JSON.stringify(angular.extend({},LessT(angular.copy(chartTemplate))),null,num);
+        var num = ($scope.resultFormat.check) ? 10 : 0;
+        $scope.result = JSON.stringify(angular.extend({}, LessT(angular.copy(chartTemplate))), null, num);
 
     };
 
@@ -77,9 +77,9 @@ function realTimeChart($scope, chartTemplate, chartName) {
 
         //监视标题
         chartTemplate.title = {text: $scope.chartSet.title};
-
-        chartTemplate.theme = newSeries.theme;
-        chartTemplate.useHighStocks = newSeries.theme;
+        if (newSeries.theme)
+            chartTemplate.theme = newSeries.theme;
+        chartTemplate.useHighStocks = newSeries.theme || "default";
         toResult($scope);
         //重绘
         paintChart($scope, chartName, chartTemplate, $scope.chartSet.cols);
@@ -94,6 +94,10 @@ function paintChart($scope, chartName, template, cols) {
     chartAxis($scope.chartTemplateCopy.yAxis);
     if ($scope.chartTemplateCopy.series.length == 0)
         $scope.chartTemplateCopy.useHighStocks = true;
+
+    //传递原始样式，用于图和配置的交互
+    $scope.chartTemplateCopy.template=$scope.chartSet.tabs;
+
     $scope[chartName] = $scope.chartTemplateCopy;
 }
 
@@ -153,7 +157,7 @@ function iniScope($scope, type) {
     $scope.AddData.data_for = "table";
     $scope.AddData.store_type = "REDIS";
     $scope.AddData.data_type = "日间数据";
-    $scope.resultFormat={check:true};
+    $scope.resultFormat = {check: true};
     //切换标签
     $scope.showTab = function (index, type) {
         if (type == "t")
@@ -181,8 +185,7 @@ function iniScope($scope, type) {
 function iniChartScope($scope) {
     $scope.chartTemplate = {
         series: [],
-        xAxis: [{id: "date"}],
-        theme: "grid-light"
+        xAxis: [{id: "date"}]
     };
     $scope.chartIndex = 0;
     $scope.axisIndex = 0;

@@ -45,7 +45,8 @@ function addCtrl($scope, $rootScope, $location, $routeParams, chartLang) {
                 "enabled": false,
                 "color": color,
                 "style": {
-                    "fontSize": "12px"
+                    "fontSize": "12px",
+                    "textShadow":"none"
                 }
             },
             "dashStyle": "Solid",
@@ -53,12 +54,12 @@ function addCtrl($scope, $rootScope, $location, $routeParams, chartLang) {
             "marker": {
                 "symbol": "circle",
                 "fillColor": color,
-                "lineWidth": 1,
+                "lineWidth": 2,
                 "lineColor": color,
                 "enabled": false
             },
             "color": color,
-            "lineWidth": 1,
+            "lineWidth": 2,
             "visible": true,
             data: rangeRnd([-5, 20])
         });
