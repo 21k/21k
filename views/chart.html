@@ -289,6 +289,25 @@
         <div class="gConfig form-horizontal">
             <div class="form-group">
                 <div class="col-md-2" style="text-align:center">
+                    <label style="font-size: 1.6rem">值比较：</label>
+                </div>
+                <div class="col-md-2">
+                    <select ng-model="chartSet.compare" class="form-control"
+                            ng-options="c.val as c.name for c in chartLang.compare">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2" style="text-align: center">
+                    <label style="font-size: 1.6rem">图样式：</label>
+                </div>
+                <div class="col-md-2">
+                    <select ng-model="chartSet.theme" class="form-control"
+                            ng-options="theme as theme for theme in  chartLang.themes">
+                        <option value="">-----请选择类型-----</option>
+                    </select>
+                </div>
+                <div class="col-md-2" style="text-align:center">
                     <label style="font-size: 1.6rem">大小配置：</label>
                 </div>
                 <div class="col-md-5 gsize">
@@ -296,17 +315,6 @@
                                     max="2000">px</label>
                     <label>高度<input type="number" class="form-control" ng-model="chartSet.size.height" min="400"
                                     max="1600">px</label>
-                </div>
-                <div class="col-md-5">
-                    <div class="col-md-3" style="text-align: center">
-                        <label style="font-size: 1.6rem">图样式：</label>
-                    </div>
-                    <div class="col-md-6">
-                        <select ng-model="chartSet.theme" class="form-control"
-                                ng-options="theme as theme for theme in  chartLang.themes">
-                            <option value="">-----请选择类型-----</option>
-                        </select>
-                    </div>
                 </div>
             </div>
 

@@ -46,7 +46,7 @@ function addCtrl($scope, $rootScope, $location, $routeParams, chartLang) {
                 "color": color,
                 "style": {
                     "fontSize": "12px",
-                    "textShadow":"none"
+                    "textShadow": "none"
                 }
             },
             "dashStyle": "Solid",

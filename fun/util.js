@@ -20,6 +20,8 @@ function realTimeChart($scope, chartTemplate, chartName) {
         $scope.chartSet.cols.push({field: item.field, data: item.data});
         return item;
     });
+    if(chartTemplate.compare)
+    $scope.chartSet.compare = chartTemplate.compare;
 
     $scope.chartSet.data = col2row($scope.chartSet.cols);
 
@@ -75,8 +77,11 @@ function realTimeChart($scope, chartTemplate, chartName) {
         //监视X坐标轴变换
         chartTemplate.xAxis = newSeries.xAxis;
 
+        //监视值比较变换
+        chartTemplate.compare = newSeries.compare;
         //监视标题
-        chartTemplate.title = {text: $scope.chartSet.title};
+        if ($scope.chartSet.title)
+            chartTemplate.title = {text: $scope.chartSet.title};
         if (newSeries.theme)
             chartTemplate.theme = newSeries.theme;
         chartTemplate.useHighStocks = newSeries.theme || "default";
@@ -96,7 +101,7 @@ function paintChart($scope, chartName, template, cols) {
         $scope.chartTemplateCopy.useHighStocks = true;
 
     //传递原始样式，用于图和配置的交互
-    $scope.chartTemplateCopy.template=$scope.chartSet.tabs;
+    $scope.chartTemplateCopy.template = $scope.chartSet.tabs;
 
     $scope[chartName] = $scope.chartTemplateCopy;
 }
@@ -192,10 +197,11 @@ function iniChartScope($scope) {
     $scope.chartSet = {
         cols: [],
         data: [],
-        title: "未命名",
+        title: "",
         xAxis: [],
         yAxis: [],
-        tabs: []
+        tabs: [],
+        compare: null
     };
     $scope.showAxisTab = function (index) {
         $scope.axisIndex = index;
@@ -242,7 +248,6 @@ function iniChartScope($scope) {
     }
     //让Y轴的颜色自动跟曲线颜色一致，另设不管
     $scope.colorChange = function (tab) {
-        console.log(tab)
         if (tab.yAxis) $scope.chartSet.yAxis.filter(function (item) {
             return item.id == tab.yAxis
         })[0].title.style.color = tab.color;

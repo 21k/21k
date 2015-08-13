@@ -42,6 +42,17 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
         };
     }
 
+    var updateZoom = function (axis, modelAxis) {
+        var extremes = axis.getExtremes();
+        if (modelAxis.currentMin !== extremes.dataMin || modelAxis.currentMax !== extremes.dataMax) {
+            axis.setExtremes(modelAxis.currentMin, modelAxis.currentMax, false);
+        }
+    };
+    var processExtremes = function (chart, axis, axisName) {
+        if (axis.currentMin || axis.currentMax) {
+            chart[axisName][0].setExtremes(axis.currentMin, axis.currentMax, true);
+        }
+    };
 
     return {
         restrict: 'EAC',
@@ -69,6 +80,11 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
                             if (!newSeries.some(function (nitem) {
                                     return (nitem.id == oitem.id);
                                 })) {
+                                ////删除对应的navigator
+                                //angular.forEach(chart.series, function (serie) {
+                                //    if(oitem.field==serie.userOptions.field)
+                                //        chart.get(serie.userOptions.id).remove();
+                                //});
                                 if (chart.get(oitem.id))
                                     chart.get(oitem.id).remove();
                             }
@@ -84,6 +100,18 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
                     }
                     //更新
                     else {
+                        //更新并过滤导航条点标记
+                        //if (chart.get("__navigator"))
+                        //    chart.get("__navigator").setData(newSeries[0].data.map(function (item) {
+                        //        if (typeof(item) == "object") return {
+                        //            x: item.x,
+                        //            y: item.y,
+                        //            marker: {enabled: false},
+                        //            dataLabels: {enabled: false}
+                        //        };
+                        //        return item;
+                        //    }), false);
+                        // chart.get("__navigator").setExtremes();
                         angular.forEach(newSeries, function (nitem) {
                             if (chart && chart.get(nitem.id))
                                 chart.get(nitem.id).update(nitem);
@@ -99,7 +127,7 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
                         chart.setSize(newSize.width, newSize.height);
                     }
                     else if (oldSize) {
-                        var wd = $(element[0]).width() - 2 + Math.round(Math.random());
+                        var wd = angular.element("body").width() - 2;
                         chart.setSize(wd, wd / 2);
                     }
                     chart.redraw();
@@ -117,18 +145,23 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
                 }, true);
 
                 scope.$watch('config.title', function (newTitle) {
-                    if (chart && newTitle)
+                    if (newTitle)
                         chart.setTitle(newTitle, true);
                 }, true);
 
-                scope.$watch('config.subtitle', function (newSubtitle) {
+                scope.$watch('config.compare', function (ncompare) {
+                    angular.forEach(chart.yAxis, function (item) {
+                        chart.get(item.id).setCompare(ncompare);
+                    });
+                }, true);
 
-                    if (chart && newSubtitle)
+                scope.$watch('config.subtitle', function (newSubtitle) {
+                    if (newSubtitle)
                         chart.setTitle(true, newSubtitle);
                 }, true);
 
                 scope.$watch('config.loading', function (loading) {
-                    if (chart && loading) {
+                    if (loading) {
                         chart.showLoading();
                     }
                     else if (loading == false) {
@@ -152,18 +185,22 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
                 if (chart)
                     chart.destroy();
                 var config = scope.config || {};
-                var defaultConfigs = getdefaultConfigs(element, config);
+                var defaultConfigs = getdefaultConfigs(scope, element, config);
                 if (defaultConfigs.theme)
                     Highcharts.setOptions(Highcharts_theme[defaultConfigs.theme]);
                 chart = config.useHighStocks ? new Highcharts.StockChart(defaultConfigs) : new Highcharts.Chart(defaultConfigs);
+                for (var i = 0; i < axisNames.length; i++) {
+                    if (config[axisNames[i]]) {
+                        processExtremes(chart, config[axisNames[i]], axisNames[i]);
+                    }
+                }
                 if (config.loading) {
                     chart.showLoading();
                 }
-
             }
 
             function xyAxis(newSeries, oldSeries, type) {
-                if (chart && newSeries != oldSeries) {
+                if (newSeries != oldSeries) {
                     if (newSeries == null) newSeries = [];
                     if (oldSeries == null) oldSeries = [];
 
@@ -194,7 +231,7 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
                 }
             }
 
-            function getdefaultConfigs(element, config) {
+            function getdefaultConfigs(scope, element, config) {
                 var defaultConfigs = {
                     chart: {reflow: true, renderTo: element[0], plotBackgroundImage: null},
                     credits: {text: "qutke.com", href: "//qutke.com", enabled: true},
@@ -202,30 +239,80 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
                     navigator: {enabled: true},
                     plotOptions: {
                         series: {
-                            events:{
-                                legendItemClick:function(e){
-                                    config.template.forEach(function(item){
-                                        if(item.id== e.currentTarget.userOptions.id)
-                                        {
-                                            item.visible=!e.currentTarget.visible;
+                            connectNulls: true,//忽略空值
+                            turboThreshold: 0,//突破曲线最大1000个{}点
+                            events: {
+                                afterAnimate: function () {
+                                    if (chart && config.size && config.size.width && config.size.height) {
+                                        if (!isanimation) {
+                                            setTimeout(function () {
+                                                chart.setSize(config.size.width, config.size.height);
+                                                isanimation = true;
+                                            }, 10)
+                                        }
+                                    }
+                                },
+                                legendItemClick: function (e) {
+                                    config.template.forEach(function (item) {
+                                        if (item.id == e.currentTarget.userOptions.id) {
+                                            item.visible = !e.currentTarget.visible;
                                         }
                                     });
                                 }
                             },
-                            "tooltip": {
-                                "pointFormat": "<span style=\"color:{series.color}\">{series.name}</span>：" +
-                                "<span style=\"color:{series.color}\">{point.y}</span>" +
-                                "<span style=\"color:{series.color}\"> ({point.change}%)</span><br/>"
-                            },
-                            connectNulls: true,//忽略空值
-                            turboThreshold: 0//曲线最大1000个{}点
+                            tooltip: {},
+                            dataGrouping: {
+                                dateTimeLabelFormats: {
+                                    millisecond: ['%Y-%m-%d %H:%M:%S', '%Y年%m月%d日 %H:%M:%S.%L', '-%H:%M:%S.%L'],
+                                    second: ['%Y-%m-%d %H:%M:%S', '%Y年%m月%d日 %H:%M:%S', '-%H:%M:%S'],
+                                    minute: ['%Y-%m-%d %H:%M:%S', '%Y年%m月%d日 %H:%M', '-%H:%M'],
+                                    hour: ['%Y-%m-%d %H:%M', '%Y年%m月%d日 %H:%M', '-%H:%M'],
+                                    day: ['%Y-%m-%d %H:%M', '%Y年%m月%d日 %H:%M', '-%H:%M'],
+                                    week: ['%Y-%m-%d', '%A, %b %e', '-%A, %b %e, %Y'],
+                                    month: ['%Y-%m-%d', '%B', '-%B %Y'],
+                                    year: ['%Y', '%Y', '-%Y']
+                                }
+                            }
                         }
                     },
-                    tooltip: {xDateFormat: "%Y-%m-%d %H:%M:%S"}
+                    tooltip: {
+                        xDateFormat: "%Y-%m-%d %H:%M:%S",
+                        valueDecimals: 3
+                    }
                 };
                 angular.extend(defaultConfigs, config);
+                if (config.compare) defaultConfigs.plotOptions.series.compare = config.compare;
+                defaultConfigs.plotOptions.series.tooltip.pointFormat = "<span style=\"color:{series.color}\">{series.name}</span>：<span style=\"color:{series.color}\">{point.y}</span><span style=\"color:{series.color};display:" + (config.compare ? "block" : "none") + "\"> ({point.change}%)</span><br/>";
+
+                angular.forEach(axisNames, function (axisName) {
+                    if (angular.isDefined(config[axisName])) {
+                        defaultConfigs[axisName] = angular.copy(config[axisName]);
+                        if (angular.isDefined(config[axisName].currentMin) || angular.isDefined(config[axisName].currentMax)) {
+                            prependMethod(defaultConfigs.chart.events, 'selection', function (e) {
+                                var thisChart = this;
+                                if (e[axisName]) {
+                                    scope.$apply(function () {
+                                        config[axisName].currentMin = e[axisName][0].min;
+                                        config[axisName].currentMax = e[axisName][0].max;
+                                    });
+                                } else {
+                                    scope.$apply(function () {
+                                        config[axisName].currentMin = thisChart[axisName][0].dataMin;
+                                        config[axisName].currentMax = thisChart[axisName][0].dataMax;
+                                    });
+                                }
+                            });
+                            prependMethod(defaultConfigs.chart.events, 'addSeries', function (e) {
+                                config[axisName].currentMin = this[axisName][0].min || config[axisName].currentMin;
+                                config[axisName].currentMax = this[axisName][0].max || config[axisName].currentMax;
+                            });
+                        }
+                    }
+                });
                 return defaultConfigs;
             }
+
+
         }
     };
 }]).factory('chartLang', function () {
@@ -234,8 +321,7 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
         "points": [{"val": "circle", "name": "圆圈"}, {"val": "square", "name": "方块"}, {
             "val": "diamond",
             "name": "菱形"
-        },
-            {"val": "triangle", "name": "三角形"}, {"val": "triangle-down", "name": "倒三角"}]
+        }, {"val": "triangle", "name": "三角形"}, {"val": "triangle-down", "name": "倒三角"}]
         ,
         "lineTypes": [{"val": "line", "name": "直线图"}, {"val": "spline", "name": "曲线图"}, {
             "val": "area",
@@ -245,6 +331,7 @@ angular.module('highcharts-ng', []).directive('highchart', ['chartLang', functio
             "name": "条形图"
         }, {"val": "pie", "name": "饼图"}, {"val": "scatter", "name": "散点图"}],
         "dashStyle": ["Solid", "ShortDash", "ShortDot", "ShortDashDot", "ShortDashDotDot", "Dot", "Dash", "LongDash", "DashDot", "LongDashDot", "LongDashDotDot"],
-        "colors": ["#ed808c", "#1cb1c7", "#43733e", "#f7905c", "#a04c4e","#b486af",  "#6bcbb8", "#d6b29a","#164d88", "#7e8242", "#90c6d9","#888689"]
+        "colors": ["#ed808c", "#1cb1c7", "#43733e", "#f7905c", "#a04c4e", "#b486af", "#6bcbb8", "#d6b29a", "#164d88", "#7e8242", "#90c6d9", "#888689"],
+        "compare": [{name: "不比较", val: null}, {name: "数值比较", val: "value"}, {name: "百分数比较", val: "percent"}]
     };
 });
